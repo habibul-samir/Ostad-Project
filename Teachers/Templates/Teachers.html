@@ -1,0 +1,90 @@
+{% extends "Dashboard/dashboard_layout.html" %}
+{% load static %}
+{% block content %}
+<section class="p-3 md:p-6 rounded-md" data-theme="light">
+
+  <div class="flex flex-col md:flex-row justify-between gap-2 mb-14">
+    <h2 class="text-2xl font-bold">Teachers</h2>
+    <div class="flex flex-col md:flex-row items-center gap-2">
+      <label class="input input-bordered flex items-center gap-2 rounded-md w-full">
+          <input type="text" class="grow" placeholder="Search" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="h-4 w-4 opacity-70">
+            <path
+              fill-rule="evenodd"
+              d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+              clip-rule="evenodd" />
+          </svg>
+        </label>
+        <a href="{% url "Teachers:add_teacher" %}" class="btn bg-[#2D88D4] text-white rounded-md">Add Teacher</a>
+    </div>
+  </div>
+  
+  <div class="overflow-x-auto">
+    <table class="table table-zebra">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>
+            ID
+          </th>
+          <th>Full Name</th>
+          <th>Gender</th>
+          <th>Email Address</th>
+          <th>Phone Number</th>
+          <th>Designation</th>
+          <th>Courses</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for teacher in teachers %}
+        <tr>
+          <th>
+            {{ teacher.id }}
+          </th>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar">
+                <div class="mask mask-squircle h-12 w-12">
+                {% if teacher.photo %}
+                    <img src="{{ teacher.photo.url }}" alt="{{ teacher.name }}" />
+                {% else %}
+                    <img src="{% static 'Teachers/images/professional-teacher-avatar-illustration-for-education-concept-vector.jpg' %}" alt="Default Avatar" />
+                {% endif %}
+                </div>
+              </div>
+              <div>
+                <div class="font-bold">{{ teacher.fullname }}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{ teacher.gender }}</td>
+          <td>{{ teacher.email_address }}</td>
+          <td>{{ teacher.phone_number }}</td>
+          <td>{{ teacher.designation }}</td>
+          <td>
+            {% for course in teacher.courses.all %}
+              <p class="badge badge-outline block mb-2 text-nowrap">{{ course.course_name }}</p>
+            {% empty %}
+              <span class="text-sm opacity-50">No courses assigned</span>
+            {% endfor %}
+          </td>
+          <td class="flex gap-2">
+            <a href="{% url "Teachers:edit_teacher" pk=teacher.id %}"  class="btn btn-neutral rounded-md">
+              <i class="fa-regular fa-pen-to-square"></i> Update
+            </a>
+            <a href="{% url "Teachers:delete_teacher" pk=teacher.id %}" class="btn btn-error text-white rounded-md">
+              <i class="fa-solid fa-trash"></i> Delete
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

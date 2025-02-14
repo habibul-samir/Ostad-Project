@@ -1,0 +1,17 @@
+{% extends "Dashboard/dashboard_layout.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<section class="p-3 md:p-6 rounded-md" data-theme="light">
+    <h2 class="text-2xl font-semibold mb-5">{{ title }}</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <div class="mt-10">
+            <a href="{% url "Students:all_students" %}"  class="btn btn-active">Cancel</a>
+            <button class="btn bg-[#2D88D4] text-white rounded-md" type="submit">{{ title }}</button>
+        </div>
+    </form>
+</section>
+{% endblock %}
