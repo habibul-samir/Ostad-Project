@@ -1,0 +1,56 @@
+{% extends "Dashboard/dashboard_layout.html" %}
+
+{% block content %}
+<section class="p-3 md:p-6 rounded-md" data-theme="light">
+    <div class="flex flex-col md:flex-row justify-between gap-2 mb-14">
+        <h2 class="text-2xl font-bold">Courses</h2>
+        <div class="flex flex-col md:flex-row items-center gap-2">
+          <label class="input input-bordered flex items-center gap-2 rounded-md w-full">
+              <input type="text" class="grow" placeholder="Search" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                class="h-4 w-4 opacity-70">
+                <path
+                  fill-rule="evenodd"
+                  d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                  clip-rule="evenodd" />
+              </svg>
+            </label>
+            <a href="{% url "Courses:add_course" %}" class="btn bg-[#2D88D4] text-white rounded-md">Add Course</a>
+        </div>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="table table-zebra">
+          <!-- head -->
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Course Code</th>
+              <th>Course Name</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for course in courses %}
+            <tr>
+                <th>{{ course.id }}</th>
+                <td>{{ course.course_code }}</td>
+                <td>{{ course.course_name }}</td>
+                <td>{{ course.description }}</td>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <a href="{% url "Courses:edit_course" pk=course.id %}" class="btn btn-neutral rounded-md"><i class="fa-regular fa-pen-to-square"></i> Update</a>
+                    <a href="{% url "Courses:delete_course" pk=course.id %}" class="btn btn-error text-white rounded-md"><i class="fa-solid fa-trash"></i> Delete</a>
+                  </div>
+                </td>
+            </tr>
+            {% endfor %}
+   
+          </tbody>
+        </table>
+      </div>
+</section>
+{% endblock %}

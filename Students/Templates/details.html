@@ -1,0 +1,55 @@
+{% extends "Dashboard/dashboard_layout.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<section>
+    <div class="flex flex-col gap-[30px]">
+        <h1 class="text-2xl font-semibold">Student Details</h1>
+        <div data-theme="light" class="grow flex flex-col items-center gap-5  justify-center p-8 rounded-xl w-full md:w-[500px] mx-auto">
+            <div class="avatar">
+                <div class="ring-offset-base-100 w-52 rounded-full ring ring-offset-2">
+                    {% if student.photo %}
+                        <img src="{{ student.photo.url }}" />
+                        {% else %}
+                        <img src="{% static 'Students/images/avatar-of-a-student-character-free-vector.jpg' %}" />
+                    {% endif %}
+                </div>
+            </div>
+            <div class="w-full flex flex-col items-center">
+                <h2 class="font-semibold text-lg">{{student.name}} ({{student.id}})</h2>
+                <p><span class="font-medium">Address:</span> {{ student.address }}</p>
+                <p><span class="font-medium">Email:</span> {{ student.email_address }}</p>
+                <p><span class="font-medium">Phone:</span> {{ student.phone_number }}</p>
+            </div>
+        </div>
+        <div data-theme="light" class="overflow-x-auto p-8 rounded-xl">
+            <h2 class="text-xl font-semibold mb-5">Courses</h2>
+            <table class="table table-zebra">
+              <!-- head -->
+              <thead>
+                <tr>
+                  <th>Course ID</th>
+                  <th>Course Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for course in student.courses.all %}
+                <tr>
+                    <th>{{ course.course_code }}</th>
+                    <td>{{ course.course_name }}</td>
+                    <td>
+                    <a href="{% url "Students:remove_student_course" pk=student.id cid=course.id %}" class="btn btn-error text-white rounded-md"><i class="fa-solid fa-trash"></i> Remove</a>
+                    </td>
+                </tr>
+                
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

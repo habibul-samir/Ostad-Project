@@ -1,0 +1,15 @@
+{% load static %}
+
+<div class="drawer-side z-[100000]">
+    <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+    <div class="menu bg-[#152259] text-base-content min-h-full w-[270px] p-4 fixed top-0 left-0">
+      <div class="flex justify-center mb-7">
+        <img class="w-32" src="{% static "Dashboard/images/Udemy-Emblem.png" %}" alt="" srcset="">
+      </div>
+      <ul>
+        {% for link in sidebar_links %}
+          <li><a href="{{ link.url }}" class="text-white py-3 {% if link.url in request.path %}bg-[#2D88D4] hover:bg-[#2D88D4] rounded-md{% endif %}"><i class="fa-solid {{ link.icon }}"></i> {{ link.title }} {% if link.url in request.path %}<i class="fa-solid fa-angle-right"></i>{% endif %}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+</div>
